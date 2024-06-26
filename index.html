@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>  
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Reinforcement Learning for Traffic Signal Control</title>
+
+  <!-- Bootstrap Core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom Fonts -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+  <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link href="css/stylish-portfolio.min.css" rel="stylesheet">
+
+</head>
+
+<style type="text/css">
+  body {
+    font-family: Helvetica, arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    padding-block-start: 10px;
+    padding-block-end: 10px;
+    background-color: white;
+    padding: 30px; }
+
+  body > *:first-child {
+    margin-block-start: 0 !important; }
+  body > *:last-child {
+    margin-block-end: 0 !important; }
+
+  a {
+    color: #4183C4; }
+  a.absent {
+    color: #cc0000; }
+  a.anchor {
+    display: block;
+    padding-inline-start: 30px;
+    margin-inline-start: -30px;
+    cursor: pointer;
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    inset-block-end: 0; }
+
+  h1, h2, h3, h4, h5, h6 {
+    margin: 20px 0 10px;
+    padding: 0;
+    font-weight: bold;
+    -webkit-font-smoothing: antialiased;
+    cursor: text;
+    position: relative; }
+
+  h1:hover a.anchor, h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor, h5:hover a.anchor, h6:hover a.anchor {
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA09pVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoMTMuMCAyMDEyMDMwNS5tLjQxNSAyMDEyLzAzLzA1OjIxOjAwOjAwKSAgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OUM2NjlDQjI4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OUM2NjlDQjM4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo5QzY2OUNCMDg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo5QzY2OUNCMTg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PsQhXeAAAABfSURBVHjaYvz//z8DJYCRUgMYQAbAMBQIAvEqkBQWXI6sHqwHiwG70TTBxGaiWwjCTGgOUgJiF1J8wMRAIUA34B4Q76HUBelAfJYSA0CuMIEaRP8wGIkGMA54bgQIMACAmkXJi0hKJQAAAABJRU5ErkJggg==) no-repeat 10px center;
+    text-decoration: none; }
+
+  h1 tt, h1 code {
+    font-size: inherit; }
+
+  h2 tt, h2 code {
+    font-size: inherit; }
+
+  h3 tt, h3 code {
+    font-size: inherit; }
+
+  h4 tt, h4 code {
+    font-size: inherit; }
+
+  h5 tt, h5 code {
+    font-size: inherit; }
+
+  h6 tt, h6 code {
+    font-size: inherit; }
+
+  h1 {
+    font-size: 28px;
+    color: black; }
+
+  h2 {
+    font-size: 24px;
+    /*border-block-end: 1px solid #cccccc;*/
+    color: black; }
+
+  h3 {
+    font-size: 32px; }
+
+  h4 {
+    font-size: 16px; }
+
+  h5 {
+    font-size: 14px; }
+
+  h6 {
+    color: #777777;
+    font-size: 14px; }
+
+  p, blockquote, ul, ol, dl, li, table, pre {
+    margin: 15px 0; }
+
+  hr {
+    background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC) repeat-x 0 0;
+    border: 0 none;
+    color: #cccccc;
+    block-size: 4px;
+    padding: 0;
+  }
+
+  body > h2:first-child {
+    margin-block-start: 0;
+    padding-block-start: 0; }
+  body > h1:first-child {
+    margin-block-start: 0;
+    padding-block-start: 0; }
+    body > h1:first-child + h2 {
+      margin-block-start: 0;
+      padding-block-start: 0; }
+  body > h3:first-child, body > h4:first-child, body > h5:first-child, body > h6:first-child {
+    margin-block-start: 0;
+    padding-block-start: 0; }
+
+  a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+    margin-block-start: 0;
+    padding-block-start: 0; }
+
+  h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
+    margin-block-start: 0; }
+
+  li p.first {
+    display: inline-block; }
+  li {
+    margin: 0; }
+  ul, ol {
+    padding-inline-start: 30px; }
+
+  ul :first-child, ol :first-child {
+    margin-block-start: 0; }
+
+  dl {
+    padding: 0; }
+    dl dt {
+      font-size: 14px;
+      font-weight: bold;
+      font-style: italic;
+      padding: 0;
+      margin: 15px 0 5px; }
+      dl dt:first-child {
+        padding: 0; }
+      dl dt > :first-child {
+        margin-block-start: 0; }
+      dl dt > :last-child {
+        margin-block-end: 0; }
+    dl dd {
+      margin: 0 0 15px;
+      padding: 0 15px; }
+      dl dd > :first-child {
+        margin-block-start: 0; }
+      dl dd > :last-child {
+        margin-block-end: 0; }
+
+  blockquote {
+    border-inline-start: 4px solid #dddddd;
+    padding: 0 15px;
+    color: #777777; }
+    blockquote > :first-child {
+      margin-block-start: 0; }
+    blockquote > :last-child {
+      margin-block-end: 0; }
+
+  table {
+    padding: 0;border-collapse: collapse; border: none;
+    }
+    table tr {
+      border-block-start: 1px solid #cccccc;
+      background-color: white;
+      margin: 0;
+      padding: 0; }
+      table tr:nth-child(2n) {
+        background-color: #f8f8f8; }
+      table tr th {
+        font-weight: bold;
+        border: 1px solid #cccccc;
+        margin: 0;
+        padding: 6px 13px; }
+      table tr td {
+        border: 1px solid #cccccc;
+        margin: 0;
+        padding: 6px 13px; }
+      table tr th :first-child, table tr td :first-child {
+        margin-block-start: 0; }
+      table tr th :last-child, table tr td :last-child {
+        margin-block-end: 0; }
+  img {
+    max-inline-size: 100%; }
+    
+.noBorder {
+    border:none !important;
+}
+  span.frame {
+    display: block;
+    overflow: hidden; }
+    span.frame > span {
+      border: 1px solid #dddddd;
+      display: block;
+      float: inline-start;
+      overflow: hidden;
+      margin: 13px 0 0;
+      padding: 7px;
+      inline-size: auto; }
+    span.frame span img {
+      display: block;
+      float: inline-start; }
+    span.frame span span {
+      clear: both;
+      color: #333333;
+      display: block;
+      padding: 5px 0 0; }
+  span.align-center {
+    display: block;
+    overflow: hidden;
+    clear: both; }
+    span.align-center > span {
+      display: block;
+      overflow: hidden;
+      margin: 13px auto 0;
+      text-align: center; }
+    span.align-center span img {
+      margin: 0 auto;
+      text-align: center; }
+  span.align-right {
+    display: block;
+    overflow: hidden;
+    clear: both; }
+    span.align-right > span {
+      display: block;
+      overflow: hidden;
+      margin: 13px 0 0;
+      text-align: end; }
+    span.align-right span img {
+      margin: 0;
+      text-align: end; }
+  span.float-left {
+    display: block;
+    margin-inline-end: 13px;
+    overflow: hidden;
+    float: inline-start; }
+    span.float-left span {
+      margin: 13px 0 0; }
+  span.float-right {
+    display: block;
+    margin-inline-start: 13px;
+    overflow: hidden;
+    float: inline-end; }
+    span.float-right > span {
+      display: block;
+      overflow: hidden;
+      margin: 13px auto 0;
+      text-align: end; }
+
+  code, tt {
+    margin: 0 2px;
+    padding: 0 5px;
+    white-space: nowrap;
+    border: 1px solid #eaeaea;
+    background-color: #f8f8f8;
+    border-radius: 3px; }
+
+  pre code {
+    margin: 0;
+    padding: 0;
+    white-space: pre;
+    border: none;
+    background: transparent; }
+
+  .highlight pre {
+    background-color: #f8f8f8;
+    border: 1px solid #cccccc;
+    font-size: 13px;
+    line-height: 19px;
+    overflow: auto;
+    padding: 6px 10px;
+    border-radius: 3px; }
+
+  pre {
+      display: block;
+      padding: 9.5px;
+      margin: 0 0 10px;
+      font-size: 13px;
+      line-height: 1.42857143;
+      color: #333;
+      word-break: break-all;
+      word-wrap: break-word;
+      background-color: #f5f5f5;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+  }
+    pre code, pre tt {
+      background-color: transparent;
+      border: none;
+    }
+
+  sup {
+      font-size: 0.83em;
+      vertical-align: super;
+      line-height: 0;
+  }
+
+  kbd {
+    display: inline-block;
+    padding: 3px 5px;
+    font-size: 11px;
+    line-height: 10px;
+    color: #555;
+    vertical-align: middle;
+    background-color: #fcfcfc;
+    border: solid 1px #ccc;
+    border-block-end-color: #bbb;
+    border-radius: 3px;
+    box-shadow: inset 0 -1px 0 #bbb
+  }
+
+  * {
+    -webkit-print-color-adjust: exact;
+  }
+  @media screen and (min-inline-size: 914px) {
+      body {
+          inline-size: 854px;
+          margin:0 auto;
+      }
+  }
+  @media print {
+    table, pre {
+      page-break-inside: avoid;
+    }
+    pre {
+      word-wrap: break-word;
+    }
+  }
+</style>
+
+<body id="page-top", style="
+    inline-size: 1000px;">
+
+<section class="content-section " id="methods" style="
+    padding-block-start: 20px;
+">
+    <div class="container">
+        <div class="content-section-heading text-center ">
+            <h2 class="mb-5">Reinforcement Learning for Traffic Signal Control</h2>
+        </div>
+    </div>
+</section>
+
+
+<p>The aim of this website is to offering comprehensive <strong>dataset</strong>, <strong>simulator</strong>, relevant <strong>papers</strong>, <strong>tutorial</strong> and <strong>survey</strong> to anyone who may wish to start investigation or evaluate a new algorithm.</p>
+
+<h2 id="toc_1">Table of contents</h2>
+
+<ul>
+<li><a href="#tutorial">Tutorial</a></li>
+<li><a href="#key-paper-list">Key Paper List</a></li>
+<li><a href="#open-datasets">Open Datasets</a></li>
+<li><a href="#traffic-simulator">Traffic Simulator</a></li>
+<li><a href="#survey">A Comprehensive Survey</a></li>
+</ul>
+
+<h2 id="tutorial">Tutorial</h2>
+<div class="tutorial">
+    <table style="inline-size: 100%;" class="noBorder">
+        <tbody class="noBorder">
+        <tr class="noBorder">
+            <td style="inline-size: 30%" class="noBorder">
+                <div class="imgHolder"><img src="img/tutorial-ITSC.png"></div>
+            </td>
+            <td style="inline-size: 70%" class="noBorder">
+                <h4 class="fig-title">
+                    <a href="https://its.papercept.net/conferences/conferences/ITSC20/program/ITSC20_ContentListWeb_1.html#sudt2">Deep Reinforcement Learning for Traffic Signal Control</a>
+                </h4>
+                <span style="color: #000000; font-weight:bold;">
+                       IEEE ITSC 2020</span>
+                <div class="fig-caption">
+                    <span style="color: #87AFC7;">
+                            [<a href="https://bit.ly/RLSignal">Slides</a>]
+                            [<a href="https://github.com/wingsweihua/gym_cityflow">Supplimentary codes</a>]
+                        </span>
+                    <br>
+                    In this tutorial, we first introduce the formulation of traffic
+                    light control problems under RL, and then classify and discuss the current RL control methods
+                    from different aspects: agent formulation, policy learning approach, and coordination strategies.
+                    In the third section, we provide hands-on experience on fast developement on different RL methods
+                    for traffic signal control. We then discuss some future research directions.
+                </div>
+                <hr class="hrPost">
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+</div>
+
+    <script language="JavaScript">
+        var allTypes = new Array('machine-learning', 'data-mining')
+        function showContentWithType(typeName) {
+            $(".publication").hide("slow");
+            $("." + typeName).show("slow");
+        }
+        function showAllPublication() {
+            $(".publication").show("slow");
+        }
+    </script>
+    
+<h2 id="#key-paper-list">Key Paper List</h2>
+    
+    <div>
+        <span style="color: #000000; font-weight:bold;">
+        <a href="https://drive.google.com/file/d/16G0_nhJQTHqlGakrq7SrilXxppr8ekG4/view?usp=sharing">Overview Slides</a>
+        <br>
+        Research Problems:
+        <a href="javascript:showAllPublication();">All papers</a><span>/</span>
+        <a href="javascript:showContentWithType('objective');">How to design reward?</a><span>/</span>
+        <a href="javascript:showContentWithType('learning');">How to learn faster?</a><span>/</span>
+        <a href="javascript:showContentWithType('simulation');">How to build a real simulator?</a><span></span>
+        <br>
+        Control Scenarios:
+        <a href="javascript:showContentWithType('single');">Single intersection</a><span>/</span>
+        <a href="javascript:showContentWithType('multiple');">Multiple intersections</a><span></span>
+        </span>
+    </div>
+
+
+    <div class="container w">
+            <div class="row centered">
+
+        <div class="multiple learning publication">
+        <table style="inline-size: 100%;" class="noBorder">
+            <tbody class="noBorder">
+                <tr class="noBorder">
+                    <td style="inline-size: 30%" class="noBorder">
+                        <div class="imgHolder"><img src="img/mplight.PNG"></div>
+                    </td>
+                    <td style="inline-size: 70%" class="noBorder">
+                        <h4 class="fig-title">
+                            <a href="https://chacha-chen.github.io/papers/chacha-AAAI2020.pdf">Toward A Thousand Lights: Decentralized Deep Reinforcement Learning for Large-Scale Traffic Signal Control</a>
+                        </h4>
+                        <span style="color: #000000; font-weight:bold;">
+                           AAAI'20</span>
+
+                        <div class="fig-caption">
+                            <span style="color: #87AFC7; font-weight:bold;">
+                                Highlight: </span> A combination of PressLight and FRAP
+                            <span style="color: #87AFC7;"><br>
+                                [<a href="https://youtu.be/-UulnApXbjM">demo</a>]
+                                [<a href="https://github.com/traffic-signal-control/RL_signals/blob/master/posters/AAAI_MPlight.pdf">poster</a>]
+                                [<a href="https://github.com/Chacha-Chen/MPLight">code</a>]
+                            </span>
+                            <br>
+                            In this paper, we tackle the problem of multi-intersection traffic signal control, especially for large-scale networks, based on RL techniques and transportation theories. This problem is quite difficult because there are challenges such as scalability, signal coordination, data feasibility, etc. To address these challenges, we (1) design our RL agents utilizing ‘pressure’ concept to achieve signal coordination in region-level; (2) show that implicit coordination could be achieved by individual control agents with well-crafted reward design thus reducing the dimensionality; and (3) conduct extensive experiments on multiple scenarios, including a real-world scenario with 2510 traffic lights in Manhattan, New York City.
+                        </div>
+                        <hr class="hrPost">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        </div>
+
+        <div class="multiple learning publication">
+        <table style="inline-size: 100%;" class="noBorder">
+            <tbody class="noBorder">
+                <tr class="noBorder">
+                    <td style="inline-size: 30%" class="noBorder">
+                        <div class="imgHolder"><img src="img/colight.PNG"></div>
+                    </td>
+                    <td style="inline-size: 70%" class="noBorder">
+                        <h4 class="fig-title">
+                            <a href="https://web.njit.edu/~hw32/posts/psu/cikm19.html">CoLight: Learning Network-level Cooperation for Traffic Signal Control</a>
+                        </h4>
+                        <span style="color: #000000; font-weight:bold;">
+                           CIKM'19</span>
+                        <div class="fig-caption">
+                            <span style="color: #87AFC7; font-weight:bold;">
+                                Highlight: </span> Attention-based coordination
+                            <span style="color: #87AFC7;"><br>
+                                [<a href="https://github.com/wingsweihua/colight">code</a>]
+                                [<a href="https://github.com/traffic-signal-control/RL_signals/blob/master/posters/CIKM19-colight-poster.pdf">poster</a>]
+                            </span>
+                            <br>
+                            To enable cooperation of traffic signals, in this paper, we propose a model, CoLight, which uses graph attentional networks to facilitate communication. Specifically, for a target intersection in a network, CoLight can not only incorporate the temporal and spatial influences of neighboring intersections to the target intersection, but also build up index-free modeling of neighboring intersections. To the best of our knowledge, we are the first to use graph attentional networks in the setting of reinforcement learning for traffic signal control and to conduct experiments on the large-scale road network with hundreds of traffic signals.
+                        </div>
+                        <hr class="hrPost">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        </div>
+
+
+        <div class="objective multiple publication">
+        <table style="inline-size: 100%;" class="noBorder">
+            <tbody class="noBorder">
+                <tr class="noBorder">
+                    <td style="inline-size: 30%" class="noBorder">
+                        <div class="imgHolder"><img src="img/presslight.gif"></div>
+                    </td>
+                    <td style="inline-size: 70%" class="noBorder">
+                        <h4 class="fig-title">
+                           <a href="https://web.njit.edu/~hw32/posts/psu/kdd19.html">PressLight: Learning Max Pressure Control to Coordinate Traffic Signals in Arterial Network</a>
+                        </h4>
+                        <span style="color: #000000; font-weight:bold;">
+                           KDD'19</span>
+                        <div class="fig-caption">
+                            <span style="color: #87AFC7; font-weight:bold;">
+                                Highlight: </span> Pressure-based coordination
+                            <span style="color: #87AFC7;"><br>
+                                [<a href="https://github.com/wingsweihua/presslight">code</a>]
+                                [<a href="https://www.kdd.org/kdd2019/accepted-papers/view/presslight-learning-max-pressure-control-for-signalized-intersections-in-ar">demo</a>]
+                                [<a href="https://github.com/traffic-signal-control/RL_signals/blob/master/posters/KDD19-presslight-poster.pdf">poster</a>]
+                            </span>
+                            <br>
+                            To avoid the heuristic design of RL elements, we propose to connect RL with recent studies in transportation research. Our method is inspired by the state-of-the-art method max pressure (MP) in the transportation field. The reward design of our method is well supported by the theory in MP, which can be proved to be maximizing the throughput of the traffic network, i.e., minimizing the overall network travel time. We also show that our concise state representation can fully support the optimization of the proposed reward function. Through comprehensive experiments, we demonstrate that our method outperforms both conventional transportation approaches and existing learning-based methods.
+                        </div>
+                        <hr class="hrPost">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        </div>
+
+        <div class="single learning publication">
+        <table style="inline-size: 100%;" class="noBorder">
+            <tbody class="noBorder">
+                <tr class="noBorder">
+                    <td style="inline-size: 30%" class="noBorder">
+                        <div class="imgHolder"><img src="img/frap.PNG"></div>
+                    </td>
+                    <td style="inline-size: 70%" class="noBorder">
+                        <h4 class="fig-title">
+                            <a href="https://dl.acm.org/doi/pdf/10.1145/3357384.3357900">Learning Phase Competition for Traffic Signal Control</a>
+                        </h4>
+                        <span style="color: #000000; font-weight:bold;">
+                           CIKM'19</span>
+                        <div class="fig-caption">
+                            <span style="color: #87AFC7; font-weight:bold;">
+                                Highlight: </span> Model the competition between pair of phases
+                            <span style="color: #87AFC7;"><br>
+                                [<a href="https://github.com/gjzheng93/frap-pub">code</a>]
+                                [<a href="https://github.com/traffic-signal-control/RL_signals/blob/master/posters/cikm2019_frap.pdf">poster</a>]
+                            </span>
+                            <br>
+                            In this paper, we propose a novel design called FRAP, which is based on the intuitive principle of phase competition in traffic signal control: when two traffic signals conflict, priority should be given to one with larger traffic movement (i.e., higher demand). Through the phase competition modeling, our model achieves invariance to symmetrical cases such as flipping and rotation in traffic flow. By conducting comprehensive experiments, we demonstrate that our model finds better solutions than existing RL methods in the complicated all-phase selection problem, converges much faster during training, and achieves superior generalizability for different road structures and traffic conditions.
+                        </div>
+                        <hr class="hrPost">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        </div>
+
+        <div class="single learning publication">
+        <table style="inline-size: 100%;" class="noBorder">
+            <tbody class="noBorder">
+                <tr class="noBorder">
+                    <td style="inline-size: 30%" class="noBorder">
+                        <div class="imgHolder"><img src="img/metalight.PNG"></div>
+                    </td>
+                    <td style="inline-size: 70%" class="noBorder">
+                        <h4 class="fig-title">
+                            <a href="https://uploads.strikinglycdn.com/files/f8450f43-19af-48ec-831a-bec87f1ec038/Metalight-AAAI-20.pdf">MetaLight: Value-based Meta-reinforcement Learning for Online Universal Traffic Signal Control</a>
+                        </h4>
+                        <span style="color: #000000; font-weight:bold;">
+                           AAAI'20</span>
+                        <div class="fig-caption">
+                            <span style="color: #87AFC7; font-weight:bold;">
+                                Highlight: </span> Meta learning for universal traffic signal control
+                            <span style="color: #87AFC7;"><br>
+                                [<a href="https://github.com/zxsRambo/metalight">code</a>]
+                                [<a href="https://github.com/traffic-signal-control/RL_signals/blob/master/posters/AAAI_metalight.pdf">poster</a>]
+                            </span>
+                            <br>
+                            In this paper, we propose a novel framework, named as MetaLight, to speed up the learning process in new scenarios by leveraging the knowledge learned from existing scenarios. MetaLight is a value-based metareinforcement learning workflow based on the representative gradient-based meta-learning algorithm (MAML), which includes periodically alternate individual-level adaptation and global-level adaptation. Moreover, MetaLight improves thestate-of-the-art reinforcement learning model FRAP in traffic signal control by optimizing its model structure and updating paradigm.
+                        </div>
+                        <hr class="hrPost">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        </div>
+
+        <div class="single learning publication">
+        <table style="inline-size: 100%;" class="noBorder">
+            <tbody class="noBorder">
+                <tr class="noBorder">
+                    <td style="inline-size: 30%" class="noBorder">
+                        <div class="imgHolder"><img src="img/demolight.PNG"></div>
+                    </td>
+                    <td style="inline-size: 70%" class="noBorder">
+                        <h4 class="fig-title">
+                            <a href="https://dl.acm.org/citation.cfm?id=3357384.3358079">Learning Traffic Signal Control from Demonstrations</a>
+                        </h4>
+                        <span style="color: #000000; font-weight:bold;">
+                           CIKM'19</span>
+                        <div class="fig-caption">
+                            <span style="color: #87AFC7; font-weight:bold;">
+                                Highlight: </span> Learning from expert demonstrations
+                            <span style="color: #87AFC7;"><br>
+                                [<a href="https://github.com/xyh97/DemoLight">code</a>]
+                                [<a href="https://github.com/traffic-signal-control/RL_signals/blob/master/posters/cikm-demolight.pdf">poster</a>]
+                            </span>
+                            <br>
+                             To avoid the prominent exploration problem in RL-based traffic signal control methods, we make an analogy between agents and humans. Agents can learn from demonstrations generated by traditional traffic signal control methods, in the similar way as people master a skill from expert knowledge. Therefore, we propose DemoLight, for the first time, to leverage demonstrations collected from  lassic methods to accelerate learning. Based on the state-of-the-art deep RL method Advantage ActorCritic (A2C), training with demos are carried out for both the actor and the critic and reinforcement learning is followed for further improvement.
+                        </div>
+                        <hr class="hrPost">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        </div>
+
+        <div class="single publication">
+        <table style="inline-size: 100%;" class="noBorder">
+            <tbody class="noBorder">
+                <tr class="noBorder">
+                    <td style="inline-size: 30%" class="noBorder">
+                        <div class="imgHolder"><img src="img/intellilight.PNG"></div>
+                    </td>
+                    <td style="inline-size: 70%" class="noBorder">
+                        <h4 class="fig-title">
+                            <a href="https://www.kdd.org/kdd2018/accepted-papers/view/intellilight-a-reinforcement-learning-approach-for-intelligent-traffic-ligh">IntelliLight: A Reinforcement Learning Approach for Intelligent Traffic Light Control</a>
+                        </h4>
+                        <span style="color: #000000; font-weight:bold;">
+                           KDD'18</span>
+                        <div class="fig-caption">
+                            <span style="color: #87AFC7; font-weight:bold;">
+                                Highlight: </span> First try on RL signal control. The base of all the methods
+                            <span style="color: #87AFC7;"><br>
+                                [<a href="https://www.kdd.org/kdd2018/accepted-papers/view/intellilight-a-reinforcement-learning-approach-for-intelligent-traffic-ligh">demo</a>]
+                                [<a href="https://github.com/traffic-signal-control/RL_signals/blob/master/posters/KDD18-intelliLight.pdf">poster</a>]
+                            </span>
+                            <br>
+                            In this paper, we propose an effective deep reinforcement learning model for traffic light control and interpreted the policies. We test our method on a large-scale real traffic dataset obtained from surveillance cameras. We also show some interesting case studies of policies learned from the real data.
+                        </div>
+                        <hr class="hrPost">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        </div>
+
+        <div class="simulation publication">
+        <table style="inline-size: 100%;" class="noBorder">
+            <tbody class="noBorder">
+                <tr class="noBorder">
+                    <td style="inline-size: 30%" class="noBorder">
+                        <div class="imgHolder"><img src="img/cityflow.gif"></div>
+                    </td>
+                    <td style="inline-size: 70%" class="noBorder">
+                        <h4 class="fig-title">
+                            <a href="https://arxiv.org/abs/1905.05217">CityFlow: A Multi-Agent Reinforcement Learning Environment for Large Scale City Traffic Scenario</a>
+                        </h4>
+                        <span style="color: #000000; font-weight:bold;">
+                           WWW'19 Demo</span>
+                        <div class="fig-caption">
+                            <span style="color: #87AFC7; font-weight:bold;">
+                                Highlight: </span> Simulator
+                            <span style="color: #87AFC7;"><br>
+                                [<a href="https://github.com/cityflow-project/CityFlow">code</a>]
+                                [<a href="https://cityflow-project.github.io/">demo</a>]
+                            </span>
+                            <br>
+                             CityFlow is an smilator which can support flexible definitions for road network and traffic flow based on synthetic and real-world data. It also provides user-friendly interface for reinforcement learning. Most importantly, CityFlow is more than twenty times faster than SUMO and is capable of supporting city-wide traffic simulation with an interactive render for monitoring. Besides traffic signal control, CityFlow could serve as the base for other transportation studies and can create new possibilities to test machine learning methods in the intelligent transportation domain.
+                        </div>
+                        <hr class="hrPost">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        </div>
+
+        <div class="simulation publication">
+        <table style="inline-size: 100%;" class="noBorder">
+            <tbody class="noBorder">
+                <tr class="noBorder">
+                    <td style="inline-size: 30%" class="noBorder">
+                        <div class="imgHolder"><img src="img/learn2sim.png"></div>
+                    </td>
+                    <td style="inline-size: 70%" class="noBorder">
+                        <h4 class="fig-title">
+                            <a href="http://faculty.ist.psu.edu/jessieli/Publications/2020-ICDE-learn-sim.pdf"> Learning to Simulate Vehicle Trajectories from Demonstrations</a>
+                        </h4>
+                        <span style="color: #000000; font-weight:bold;">
+                           ICDE'20</span>
+                        <div class="fig-caption">
+                            <span style="color: #87AFC7; font-weight:bold;">
+                                Highlight: </span> Learning real-world vehicle behavior for a better simulator
+                            <span style="color: #87AFC7;"><br>
+                            </span>
+                            <br>
+                             Considering the complexity and nonlinearity of the real-world traffic, this paper unprecedentedly treat the problem of traffic simulation as a learning problem, and proposes learning to simulate  vehicle trajectory.
+                        </div>
+                        <hr class="hrPost">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        </div>
+
+        <div class="simulation publication">
+                    <table style="inline-size: 100%;" class="noBorder">
+                        <tbody class="noBorder">
+                        <tr class="noBorder">
+                            <td style="inline-size: 30%" class="noBorder">
+                                <div class="imgHolder"><img src="img/imingail.png"></div>
+                            </td>
+                            <td style="inline-size: 70%" class="noBorder">
+                                <h4 class="fig-title">
+                                    <a href="https://web.njit.edu/~hw32/posts/psu/ecmlpkdd20.html"> Learning to Simulate with Sparse Trajectory Data</a>
+                                </h4>
+                                <span style="color: #000000; font-weight:bold;">
+                                    ECML-PKDD'20</span> [<span style="color: #ff0000;">Best Applied Data Science Paper Award</span>]
+                                <div class="fig-caption">
+                            <span style="color: #87AFC7; font-weight:bold;">
+                                Highlight: </span> Learning to simulate under sparse data
+                                    <span style="color: #87AFC7;"><br>
+                            </span>
+                                    <br>In most real-world cases, the real-world trajectories of agents are
+                                    sparse, which makes simulation challenging. In this paper, we present a
+                                    novel framework ImIn-GAIL to address the problem of learning to simulate the driving behavior from sparse real-world data. The proposed
+                                    architecture incorporates data interpolation with the behavior learning
+                                    process of imitation learning.
+                                </div>
+                                <hr class="hrPost">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                </div>
+
+
+        </div><!-- row -->
+    </div>
+
+<!--
+<table>
+  <thead>
+  <tr>
+  <th style="text-align: start">Method</th>
+  <th style="text-align: start">Paper</th>
+  <th style="text-align: start">Published</th>
+  <th style="text-align: center">Notes</th>
+  <th style="text-align: center">Code</th>
+  <th style="text-align: center">Demo video</th>
+  <th style="text-align: center">Poster</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <tr>
+  <td style="text-align: start">MPLight</td>
+  <td style="text-align: start"><a href="https://traffic-signal-control.github.io/a-thousand-lights.html">Toward A Thousand Lights: Decentralized Deep Reinforcement Learning for Large-Scale Traffic Signal Control</a></td>
+  <td style="text-align: start">AAAI&#39;2020</td>
+  <td style="text-align: center">A combination of PressLight and FRAP</td>
+  <td style="text-align: center">-</td>
+  <td style="text-align: center"><a href="https://traffic-signal-control.github.io/a-thousand-lights.html">Demo</a></td>
+  <td style="text-align: center">-</td>
+  </tr>
+  <tr>
+  <td style="text-align: start">CoLight</td>
+  <td style="text-align: start"><a href="https://sites.psu.edu/huawei/2019/09/15/colight-cikm-2019/">CoLight: Learning Network-level Cooperation for Traffic Signal Control</a></td>
+  <td style="text-align: start">CIKM&#39;19</td>
+  <td style="text-align: center">Attention-based coordination</td>
+  <td style="text-align: center"><a href="https://github.com/wingsweihua/colight">Code</a></td>
+  <td style="text-align: center">N/A</td>
+  <td style="text-align: center"><a href="https://github.com/traffic-signal-control/RL_signals/blob/master/posters/CIKM19-colight-poster.pdf">poster</a></td>
+  </tr>
+  <tr>
+  <td style="text-align: start">PressLight</td>
+  <td style="text-align: start"><a href="https://sites.psu.edu/huawei/2019/06/17/presslight-kdd-2019/">PressLight: Learning Max Pressure Control to Coordinate Traffic Signals in Arterial Network</a></td>
+  <td style="text-align: start">KDD&#39;19</td>
+  <td style="text-align: center">Pressure-based coordination</td>
+  <td style="text-align: center"><a href="https://github.com/wingsweihua/presslight">Code</a></td>
+  <td style="text-align: center"><a href="https://www.kdd.org/kdd2019/accepted-papers/view/presslight-learning-max-pressure-control-for-signalized-intersections-in-ar">Demo</a></td>
+  <td style="text-align: center"><a href="https://github.com/traffic-signal-control/RL_signals/blob/master/posters/KDD19-presslight-poster.pdf">poster</a></td>
+  </tr>
+  <tr>
+  <td style="text-align: start">FRAP</td>
+  <td style="text-align: start"><a href="http://www.personal.psu.edu/%7Egjz5038/paper/cikm2019_frap/cikm2019_frap_paper.pdf">Learning Phase Competition for Traffic Signal Control</a></td>
+  <td style="text-align: start">CIKM&#39;19</td>
+  <td style="text-align: center">Our most powerful single intersectiton control model</td>
+  <td style="text-align: center"><a href="https://github.com/gjzheng93/frap-pub">Code</a></td>
+  <td style="text-align: center">N/A</td>
+  <td style="text-align: center"><a href="https://github.com/traffic-signal-control/RL_signals/blob/master/posters/cikm2019_frap.pdf">poster</a></td>
+  </tr>
+  <tr>
+  <td style="text-align: start">MetaLight</td>
+  <td style="text-align: start">MetaLight: Value-based Meta-reinforcement Learning for Online Universal Traffic Signal Control</td>
+  <td style="text-align: start">AAAI&#39;2020</td>
+  <td style="text-align: center">Meta learning for universal traffic signal control</td>
+  <td style="text-align: center"><a href="https://github.com/zxsRambo/metalight">Code</a></td>
+  <td style="text-align: center">-</td>
+  <td style="text-align: center">-</td>
+  </tr>
+  <tr>
+  <td style="text-align: start">DemoLight</td>
+  <td style="text-align: start"><a href="https://dl.acm.org/citation.cfm?id=3357384.3358079">Learning Traffic Signal Control from Demonstrations</a></td>
+  <td style="text-align: start">CIKM&#39;19</td>
+  <td style="text-align: center">Learn from expert demonstrations</td>
+  <td style="text-align: center"><a href="https://github.com/xyh97/DemoLight">Code</a></td>
+  <td style="text-align: center">N/A</td>
+  <td style="text-align: center"><a href="https://github.com/traffic-signal-control/RL_signals/blob/master/posters/cikm-demolight.pdf">poster</a></td>
+  </tr>
+  <tr>
+  <td style="text-align: start">IntelliLight</td>
+  <td style="text-align: start"><a href="https://www.kdd.org/kdd2018/accepted-papers/view/intellilight-a-reinforcement-learning-approach-for-intelligent-traffic-ligh">IntelliLight: A Reinforcement Learning Approach for Intelligent Traffic Light Control</a></td>
+  <td style="text-align: start">KDD&#39;18</td>
+  <td style="text-align: center">First try on RL signal control. The base of all the methods</td>
+  <td style="text-align: center">N/A</td>
+  <td style="text-align: center"><a href="https://www.kdd.org/kdd2018/accepted-papers/view/intellilight-a-reinforcement-learning-approach-for-intelligent-traffic-ligh">Demo</a></td>
+  <td style="text-align: center"><a href="https://github.com/traffic-signal-control/RL_signals/blob/master/posters/KDD18-intelliLight.pdf">poster</a></td>
+  </tr>
+  <tr>
+  <td style="text-align: start">CityFlow</td>
+  <td style="text-align: start"><a href="https://arxiv.org/abs/1905.05217">CityFlow: A Multi-Agent Reinforcement Learning Environment for Large Scale City Traffic Scenario</a></td>
+  <td style="text-align: start">WWW&#39;19 Demo</td>
+  <td style="text-align: center">Simulator</td>
+  <td style="text-align: center"><a href="https://github.com/cityflow-project/CityFlow">Code</a></td>
+  <td style="text-align: center"><a href="https://cityflow-project.github.io/">Demo</a></td>
+  <td style="text-align: center">N/A</td>
+  </tr>
+  </tbody>
+</table>
+
+-->
+<!-- <header class="masthead d-flex">
+    <div class="container text-center my-auto">
+          <div class="col-lg-12 mx-auto">
+              <h2><font color="white">About</font></h2>
+              <p class="lead lg-6 mb-20"> <font color="white">
+                   Here is the list of the main contributors to this project.</font></p>
+          </div>
+    </div>
+        
+  </header> -->
+
+  <!-- About -->
+<!--
+  <section class="content-section bg-white text-white" id="about">
+    <div class="container text-center">
+      <div class="row">
+        <div class="col-lg-10 mx-auto">
+          <h2>Methods for Traffic Signal Control</h2>
+        <p class="breadcrumb-custom"><a href="index.html">Home</a> <span class="mx-2">&gt;</span> <span>Get Started</span> <span class="mx-2">&gt;</span> <span>Data Description</span> </p>
+          <p class="lead mb-5">Here we present a survey about traffic signal control, including introductions on several conventional transportation approaches and comprehensive coverage on RL-based traffic signal control approaches. </p>
+          <a class="btn btn-dark btn-xl js-scroll-trigger" href="#">See the survey</a>
+          <a class="btn btn-light btn-xl js-scroll-trigger" href="#services">Methods detail</a>
+        </div>
+      </div>
+    </div>
+  </section>
+-->
+
+    <!-- Header -->
+
+<section class="content-section " id="datasets" style="padding-block-start: 20px;">
+    <h2 id="open-datasets">Open Datasets</h2>
+    <p>We provide different traffic datasets, each includes both road network (roadnet.json) and traffic flow file (flow.json), whose formats are defined in <a href="https://cityflow.readthedocs.io/en/latest/roadnet.html">Roadnet File Format</a> and <a href="https://cityflow.readthedocs.io/en/latest/flow.html">Flow File Format</a> respectively.</p>
+    <p></p>
+    <div class="container">
+   
+  <div class="caption-content">
+
+  </div>
+
+  <div class="table-responsive" data-example-id="simple-table" style="overflow:scroll;">
+
+  <table class="table">
+
+  <caption>*All methods are measured in <a href="https://traffic-signal-control.github.io/TSCC2019/evaluation.html"> Average Travel Time</a> (in seconds) under <a href="https://cityflow-project.github.io/"> CityFlow</a> simulator.</caption>
+
+  <thead>
+
+  <tr>
+
+  <th>#</th>
+
+  <th>Dataset name</th>
+
+  <th>  
+  Number of  
+  Intersections  
+  </th>
+
+  <th>Time Span  
+  (Seconds)</th>
+
+  <th>Description</th>
+
+  <th>Referred result*</th>
+
+  <th>Referred method</th>
+
+  </tr>
+
+  </thead>
+
+  <tbody>
+
+  <tr>
+
+  <td>1</td>
+
+  <td><a
+                href="https://github.com/traffic-signal-control/sample-code/tree/master/data/hangzhou_1x1_bc-tyc_18041607_1h"><span>hangzhou_1x1_bc-tyc_18041607_1h</span></a></td>
+  <td>1</td>
+
+  <td>3600</td>
+
+  <td rowspan="11">These datasets are based on camera data in Hangzhou.  
+  Due to the lack of records about turning vehicles, the turning ratios of each dataset are fixed, with 10% as turning left, 60% as going straight, and 30% as turning right. The turning-right vehicles are discarded since they are not under the control of traffic lights.  
+  There are one left-turn lane and one straight lane in each direction in each roadnet.</td>
+
+  <td>221.03</td>
+
+  <td ><a class="nav-link js-scroll-trigger" href="https://traffic-signal-control.github.io/code.html">SOTL</a></td>
+
+  </tr>
+
+  <tr height="30">
+
+  <td>2</td>
+  <td><a 
+  href="https://github.com/traffic-signal-control/sample-code/tree/master/data/hangzhou_1x1_bc-tyc_18041608_1h"><span>hangzhou_1x1_bc-tyc_18041608_1h</span></a></td>
+      
+  <td>1</td>
+
+  <td>3600</td>
+
+  <td>334.72</td>
+
+  <td ><a class="nav-link js-scroll-trigger" href="https://traffic-signal-control.github.io/code.html">SOTL</a></td>
+
+  </tr>
+
+  <tr height="30">
+
+  <td>3</td>
+  <td>
+                        <a href="https://github.com/traffic-signal-control/sample-code/tree/master/data/hangzhou_1x1_bc-tyc_18041610_1h"><span >hangzhou_1x1_bc-tyc_18041610_1h</span></a></td>
+
+  <td>1</td>
+
+  <td>3600</td>
+
+  <td>213.20</td>
+
+  <td ><a class="nav-link js-scroll-trigger" href="https://traffic-signal-control.github.io/code.html">SOTL</a></td>
+
+  </tr>
+
+  <tr height="30">
+
+  <td>4</td>
+
+  <td><a href="https://github.com/traffic-signal-control/sample-code/tree/master/data/hangzhou_1x1_kn-hz_18041607_1h"><span>hangzhou_1x1_kn-hz_18041607_1h</span></a></td>
+
+  <td>1</td>
+
+  <td>3600</td>
+
+  <td>72.48</td>
+
+  <td ><a class="nav-link js-scroll-trigger" href="https://traffic-signal-control.github.io/code.html">SOTL</a></td>
+
+  </tr>
+
+  <tr height="30">
+
+  <td>5</td>
+
+  <td><a href="https://github.com/traffic-signal-control/sample-code/tree/master/data/hangzhou_1x1_kn-hz_18041608_1h"><span>hangzhou_1x1_kn-hz_18041608_1h</span></a></td>
+
+  <td>1</td>
+
+  <td>3600</td>
+
+  <td>64.10</td>
+
+  <td ><a class="nav-link js-scroll-trigger" href="https://traffic-signal-control.github.io/code.html">SOTL</a></td>
+
+  </tr>
+
+  <tr height="30">
+
+  <td>6</td>
+
+  <td><a  href="https://github.com/traffic-signal-control/sample-code/tree/master/data/hangzhou_1x1_qc-yn_18041607_1h"><span>hangzhou_1x1_qc-yn_18041607_1h</span></a></td>
+
+  <td>1</td>
+
+  <td>3600</td>
+
+  <td>117.24</td>
+
+  <td ><a class="nav-link js-scroll-trigger" href="https://traffic-signal-control.github.io/code.html">SOTL</a></td>
+
+  </tr>
+
+  <tr height="30">
+
+  <td>7</td>
+
+  <td><a  href="https://github.com/traffic-signal-control/sample-code/tree/master/data/hangzhou_1x1_qc-yn_18041608_1h"><span>hangzhou_1x1_qc-yn_18041608_1h</span></a></td>
+
+  <td>1</td>
+
+  <td>3600</td>
+
+  <td>131.99</td>
+
+  <td ><a class="nav-link js-scroll-trigger" href="https://traffic-signal-control.github.io/code.html">SOTL</a></td>
+
+  </tr>
+
+  <tr height="30">
+
+  <td>8</td>
+
+  <td><a href="https://github.com/traffic-signal-control/sample-code/tree/master/data/hangzhou_1x1_sb-sx_18041607_1h"><span>hangzhou_1x1_sb-sx_18041607_1h</span></a></td>
+  <td>1</td>
+
+  <td>3600</td>
+
+  <td>173.85</td>
+
+  <td ><a class="nav-link js-scroll-trigger" href="https://traffic-signal-control.github.io/code.html">SOTL</a></td>
+
+  </tr>
+
+  <tr height="30">
+
+  <td>9</td>
+
+   <td><a
+                    href="https://github.com/traffic-signal-control/sample-code/tree/master/data/hangzhou_1x1_sb-sx_18041608_1h"><span>hangzhou_1x1_sb-sx_18041608_1h</span></a></td>
+  <td>1</td>
+
+  <td>3600</td>
+
+  <td>290.00</td>
+
+  <td ><a class="nav-link js-scroll-trigger" href="https://traffic-signal-control.github.io/code.html">SOTL</a></td>
+
+  </tr>
+
+  <tr height="30">
+
+  <td>10</td>
+
+  <td><a href="https://github.com/traffic-signal-control/sample-code/tree/master/data/hangzhou_1x1_tms-xy_18041607_1h"><span>hangzhou_1x1_tms-xy_18041607_1h</span></a></td>
+
+  <td>1</td>
+
+  <td>3600</td>
+
+  <td>214.77</td>
+
+  <td ><a class="nav-link js-scroll-trigger" href="https://traffic-signal-control.github.io/code.html">SOTL</a></td>
+
+  </tr>
+
+  <tr height="30">
+
+  <td>11</td>
+
+  <td><a href="https://github.com/traffic-signal-control/sample-code/tree/master/data/hangzhou_1x1_tms-xy_18041608_1h"><span>hangzhou_1x1_tms-xy_18041608_1h</span></a></td>
+  <td>1</td>
+
+  <td>3600</td>
+
+  <td>325.32</td>
+
+  <td ><a class="nav-link js-scroll-trigger" href="https://traffic-signal-control.github.io/code.html">SOTL</a></td>
+
+  </tr>
+
+  <tr height="30">
+
+  <td>12</td>
+
+  <td><a  href="https://github.com/traffic-signal-control/sample-code/tree/master/data/syn_1x1_uniform_200_1h"><span>syn_1x1_uniform_200_1h</span></a></td>
+  <td>1</td>
+
+  <td>3600</td>
+
+  <td rowspan="3">These datasets are generated artificially. The vehicles enter the road network uniformly with a fixed entering ratio chosen from 200, 400 and 600 vehicles per hour.</td>
+
+  <td>61.44</td>
+
+  <td ><a class="nav-link js-scroll-trigger" href="https://traffic-signal-control.github.io/code.html">SOTL</a></td>
+
+  </tr>
+
+  <tr height="30">
+
+  <td>13</td>
+
+  <td><a
+                    href="https://github.com/traffic-signal-control/sample-code/tree/master/data/syn_1x1_uniform_400_1h"><span>syn_1x1_uniform_400_1h</span></a></td>
+
+  <td>1</td>
+
+  <td>3600</td>
+
+  <td>133.40</td>
+
+  <td ><a class="nav-link js-scroll-trigger" href="https://traffic-signal-control.github.io/code.html">SOTL</a></td>
+
+  </tr>
+
+  <tr height="30">
+
+  <td>14</td>
+
+  <td><a
+                    href="https://github.com/traffic-signal-control/sample-code/tree/master/data/syn_1x1_uniform_600_1h"><span>syn_1x1_uniform_600_1h</span></a></td>
+
+  <td>1</td>
+
+  <td>3600</td>
+
+  <td>189.11</td>
+
+  <td ><a class="nav-link js-scroll-trigger" href="https://traffic-signal-control.github.io/code.html">SOTL</a></td>
+
+  </tr>
+      
+     
+  <tr height="30">
+
+  <td>15</td>
+
+  <td><a
+                    href="https://github.com/wingsweihua/colight/tree/master/data/Jinan/3_4"><span>jinan_3x4_hongqi_16XXXXXX_1h</span></a></td>
+  <td>12</td>
+
+  <td>3600</td>
+
+  <td>The road network contains 12 intersections in a 3x4 grid. Each intersection has four incoming approaches and four outgping approaches, and each approach has three lanes (left-turn, through and right-turn respectively).  
+  The traffic flow data is based on camera data in Jinan. Necessary simplification is done due to the low quality of the real-world data.</td>
+
+  <td> </td>
+
+  <td> </td>
+
+  </tr>
+
+  <tr height="30">
+
+  <td>16</td>
+
+  <td><a
+                    href="https://github.com/traffic-signal-control/sample-code/tree/master/data/hangzhou_4x4_gudang_18041610_1h"><span>hangzhou_4x4_gudang_18010207_1h</span></a></td>
+  <td>16</td>
+
+  <td>3600</td>
+
+  <td>The road network contains 16 intersections in a 4x4 grid. Each intersection has four incoming approaches and four outgping approaches, and each approach has three lanes (left-turn, through and right-turn respectively).  
+  The traffic flow data is based on camera data in Hangzhou. Necessary simplification is done due to the low quality of the real-world data.  
+  • Traffic volume: the traffic volume is derived from camera data at Hangzhou.  
+  • Turning ratio: 10% (turning left), 60%(going straight) and 30% (turning right). This is synthesized from the statistics of taxi GPS data.</td>
+
+  <td>240.97</td>
+
+  <td>MaxPressure</td>
+
+  </tr>
+
+  <tr height="30">
+
+  <td>17</td>
+
+   <td><a
+                    href="https://github.com/traffic-signal-control/sample-code/tree/master/data/syn_1x3_gaussian_500_1h"><span>syn_1x3_gaussian_500_1h</span></a></td>
+  <td>3</td>
+
+  <td>3600</td>
+
+  <td rowspan="4">The road network contains 16 intersections in a 4x4 grid. Each intersection has four incoming approaches and four outgping approaches, and each approach has three lanes (left-turn, through and right-turn respectively).  
+  • Traffic volume: All the vehicles enter and leave the network from the rim edges.For each entering edge, the number of the vehicles generated is sampled from a Gaussian distribution with mean as 500 vehicles/hour/lane.  
+  • Turning ratio: 10% (turning left), 60%(going straight) and 30% (turning right)</td>
+
+  <td>422.95</td>
+
+  <td>MaxPressure</td>
+
+  </tr>
+      
+  <tr height="30">
+
+  <td>18</td>
+
+  <td><a
+                    href="https://github.com/traffic-signal-control/sample-code/tree/master/data/syn_2x2_gaussian_500_1h"><span>syn_2x2_gaussian_500_1h</span></a></td>
+  <td>4</td>
+
+  <td>3600</td>
+
+  <td>477.71</td>
+
+  <td>MaxPressure</td>
+
+  </tr>
+
+  <tr height="30">
+
+  <td>19</td>
+
+  <td><a  href="https://github.com/traffic-signal-control/sample-code/tree/master/data/syn_3x3_gaussian_500_1h"><span>syn_3x3_gaussian_500_1h</span></a></td>
+  <td>9</td>
+
+  <td>3600</td>
+
+  <td>631.75</td>
+
+  <td>MaxPressure</td>
+
+  </tr>
+
+  <tr height="30">
+
+  <td>20</td>
+
+   <td><a
+                    href="https://github.com/traffic-signal-control/sample-code/tree/master/data/syn_4x4_gaussian_500_1h"><span>syn_4x4_gaussian_500_1h</span></a></td>
+  <td>16</td>
+
+  <td>3600</td>
+
+  <td>689.68</td>
+
+  <td>MaxPressure</td>
+
+  </tr>
+
+  <tr height="30">
+
+  <td>21</td>
+
+   <td><a
+                    href="https://github.com/Chacha-Chen/MPLight/tree/master/data/manhattan"><span>Manhattan_1</span></a></td>  <td>2510</td>
+
+  <td>3600</td>
+
+<td rowspan="3">The road network contains 2510 intersections in Manhattan, New York. The road network is converted from SUMO default road net into the CityFlow format.
+  • Traffic volume: Vehicles enter and leave the network could appear in every node in the network.For each entering edge, the number of the vehicles generated is sampled from a taxi trajectory data.
+  • Turning ratio: 10% (turning left), 60%(going straight) and 30% (turning right)</td>
+
+
+  <td></td>
+
+  <td></td>
+
+  </tr>
+
+
+  <tr height="30">
+
+  <td>22</td>
+
+   <td><a
+                    href="https://github.com/Chacha-Chen/MPLight/tree/master/data/manhattan"><span>Manhattan_2</span></a></td>  <td>2510</td>
+
+  <td>3600</td>
+
+  <td></td>
+
+  <td></td>
+
+
+  </tr>
+
+  <tr height="30">
+
+  <td>23</td>
+
+   <td><a
+                    href="https://github.com/Chacha-Chen/MPLight/tree/master/data/manhattan"><span>Manhattan_3</span></a></td>  <td>2510</td>
+
+  <td>3600</td>
+
+  <td></td>
+
+  <td></td>
+
+  </tr>
+
+  <tr height="30">
+
+  <td>24</td>
+
+  <td><a
+                    href="https://github.com/traffic-signal-control/sample-code/tree/master/data/LA_1x4"><span>LA_1x4</span></a></td>
+  <td>4</td>
+
+  <td>3600</td>
+
+  <td>The road network contains 4 intersections in LA. </td>
+
+  <td></td>
+
+  <td></td>
+
+  </tr>
+
+    <tr height="30">
+
+  <td>25</td>
+
+  <td><a
+href="https://github.com/traffic-signal-control/sample-code/tree/master/data/atlanta_1x5"><span>Atlanta_1x5</span></a></td>
+  <td>5</td>
+
+  <td>3600</td>
+
+  <td>The road network contains 5 intersections in Atlanta. </td>
+
+  <td></td>
+
+  <td></td>
+
+  </tr>
+
+    <tr height="30">
+
+  <td>26</td>
+
+  <td><a
+                    href="https://github.com/traffic-signal-control/sample-code/tree/master/data/manhattan_16x3"><span>Manhattan_16x3</span></a></td>
+  <td>48</td>
+
+  <td>3600</td>
+
+  <td>The road network contains 48 intersections in Manhattan. </td>
+
+  <td></td>
+
+  <td></td>
+
+  </tr>
+
+    <tr height="30">
+
+  <td>27</td>
+
+  <td><a
+                    href="https://github.com/traffic-signal-control/sample-code/tree/master/data/manhattan_28x7"><span>Manhattan_28x7</span></a></td>
+  <td>196</td>
+
+  <td>3600</td>
+
+  <td>The road network contains 196 intersections in Manhattan. </td>
+
+  <td></td>
+
+  <td></td>
+
+  </tr>
+
+
+
+  </tbody>
+
+  </table>
+
+  </div>
+
+  <p>
+       </div>
+
+    <p>If you use the datasets in your paper, please cite the following papers:</p>
+    <pre>@article{wei2019survey,
+      title={A Survey on Traffic Signal Control Methods},
+      author={Wei, Hua and Zheng, Guanjie and Gayah, Vikash and Li, Zhenhui},
+      journal={arXiv preprint arXiv:1904.08117},
+      year={2019}
+    }
+    </pre>
+    <pre>@inproceedings{wei2019colight,
+      title={Colight: Learning network-level cooperation for traffic signal control},
+      author={Wei, Hua and Xu, Nan and Zhang, Huichu and Zheng, Guanjie and Zang, Xinshi and Chen, Chacha and Zhang, Weinan and Zhu, Yanmin and Xu, Kai and Li, Zhenhui},
+      booktitle={Proceedings of the 28th ACM International Conference on Information and Knowledge Management},
+      pages={1913--1922},
+      year={2019}
+    }
+    </pre>
+    <pre>@inproceedings{zheng2019frap,
+      title={Learning phase competition for traffic signal control},
+      author={Zheng, Guanjie and Xiong, Yuanhao and Zang, Xinshi and Feng, Jie and Wei, Hua and Zhang, Huichu and Li, Yong and Xu, Kai and Li, Zhenhui},
+      booktitle={Proceedings of the 28th ACM International Conference on Information and Knowledge Management},
+      pages={1963--1972},
+      year={2019}
+    }</pre>
+</section>
+
+
+<h2 id="survey">Survey</h2>
+
+  <p><a href="https://arxiv.org/abs/1904.08117">A Survey on traffic signal control</a></p>, 
+  <p><a href="https://kdd.org/exploration_files/5._CR._30._Recent_Advances_in_Reinforcement_Learning_for_Traffic_Signal_Control_A_Survey_of_Models_and_Evaluation-2.pdf">Recent Advances in Reinforcement Learning for Traffic Signal Control: A Survey of Models and Evaluation</a></p>
+    <img src="img/survey-structure.png" class="card-img-top" alt="...">
+
+
+
+<section class="content-section " id="team" style="
+    padding-block-start: 20px;
+">
+    <div class="container">
+        <div class="content-section-heading text-center ">
+            <h2 class="mb-5">Team</h2>
+        </div>
+    </div>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+        <!-- Header -->
+        <div class="col-xl-12 col-md-6 mb-5">
+          <div class="card border-0">
+            <div class="card-body text-center">
+              <h3 class="card-title mb-0">Faculty Members</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="row">
+        <!-- Team Member 1 -->
+        <div class="col-xl-4 col-md-6 mb-5">
+          <div class="card border-0">
+            <div class="card-body text-center">
+            </div>
+          </div>
+        </div>
+        <!-- Team Member 1 -->
+        <div class="col-xl-4 col-md-6 mb-5">
+          <div class="card border-0">
+<!--           special link    <a href="https://faculty.ist.psu.edu/jessieli/Site/index.html">
+ -->            <img src="img/collinmcgoughpic.jpg" class="card-img-top" alt="...">
+            <div class="card-body text-center">
+                <h5 class="card-title mb-0">Collin McGough</h5>
+              <div class="card-text text-black-50">The Ohio State University</div>
+            </div>
+            </a>
+          </div>
+        </div>
+        <!-- Team Member 1 -->
+        <div class="col-xl-4 col-md-6 mb-5">
+          <div class="card border-0">
+            <div class="card-body text-center">
+            </div>
+          </div>
+        </div>
+
+      <div class="row">
+        <!-- Header -->
+        <div class="col-xl-12 col-md-6 mb-5">
+          <div class="card border-0">
+            <div class="card-body text-center">
+              <h3 class="card-title mb-0">Student Members</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Team Member 2 -->
+        <div class="col-xl-3 col-md-6 mb-4">
+              <a href="https://web.njit.edu/~hw32/">
+                  <div class="card border-0 shadow">
+            <!--        <img src="https://source.unsplash.com/9UVmlIb0wJU/500x350" class="card-img-top" alt="...">-->
+                    <div class="card-body text-center">
+                      <h5 class="card-title mb-0">Hua Wei</h5>
+                      <div class="card-text text-black-50">PhD, Penn State</div>
+                    </div>
+                  </div>
+            </a>
+        </div>
+        <!-- Team Member 3 -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <a href="https://jhc.sjtu.edu.cn/~gjzheng/">
+              <div class="card border-0 shadow">
+                <div class="card-body text-center">
+                  <h5 class="card-title mb-0">Guanjie Zheng</h5>
+                  <div class="card-text text-black-50">PhD, Penn State</div>
+                </div>
+              </div>
+            </a>
+        </div>
+
+      </div>
+      <!-- /.row -->
+
+    </div>
+    </div>
+</section>
+
+
+  <!-- Footer -->
+  <footer id="contact" class="footer text-center" style="
+    padding-block-start: 0px;
+    padding-block-end: 0px;
+">
+      <div class="col-lg-6 mt-5 mx-auto">
+                <h3>Contact us</h3>
+            </div>
+    <div class="container">
+        <p></p>
+        
+      <ul class="list-inline mb-5">
+        <li class="list-inline-item">
+          <a class="social-link rounded-circle text-white mr-3" href="mailto: collinmcgough1@outlook.com">
+            <i class="icon-envelope"></i>
+          </a>
+        </li>
+        <li class="list-inline-item">
+          <a class="social-link rounded-circle text-white mr-3" href="https://x.com/LocalHostIan">
+            <i class="icon-social-twitter"></i>
+          </a>
+        </li>
+        <li class="list-inline-item">
+          <a class="social-link rounded-circle text-white" href="https://github.com/CollinMcGough">
+            <i class="icon-social-github"></i>
+          </a>
+        </li>
+      </ul>
+      <!-- <p class="text-muted small mb-0">Copyright &copy; Traffic Signal Control Group | Wesbite developed by <a href="http://personal.psu.edu/hzw77/">Hua Wei</a> | Template by <a href="http://startbootstrap.com/">Smart Bootstrap</a></p> -->
+    </div>
+  </footer>
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded js-scroll-trigger" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="js/stylish-portfolio.min.js"></script>
+
+</body>
+
+</html>
