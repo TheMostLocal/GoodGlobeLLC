@@ -1,0 +1,72 @@
+   WordaMouth
+   https://github.com/rotki/rotki
+   check that out
+   Blockchain/stockETF wallet
+
+   
+
+
+
+   Accounting System
+
+    https://github.com/ctSkennerton/UsTaxes?tab=readme-ov-file
+            Tax System works and is equipped with great tools
+            *initial thought* How can we make it unique and closed source?/only available to us-  Can we make client accounts to save previous info? Would like to keep all info and scan previous info to categorize uniquley by client
+
+            ideas-could add this to app and give a category for businesses to file their own taxes..how can we make customer accounts to login from home?
+            Author-https://ctskennerton.github.io/resume/
+
+
+    Supported Income Forms
+
+    The following federal income forms are (mostly) supported:
+            W2
+            1099-INT
+            1099-DIV
+            1099-B
+            1098-E
+            1099-R: support for normal distributions from IRA and pension accounts.
+            SSA-1099
+    UsTaxes can attach the following to your 1040:
+            Schedule 1 (as related to Schedule E and Schedule SE only)
+            Schedule 2
+            Schedule 3 (as related to excess FICA only)
+            Schedule 8812
+            Schedule A
+            Schedule B
+            Schedule D
+            Schedule E
+            Schedule SE
+            F1040-V
+            F6251 (AMT; only supports exercise of incentive stock options)
+            F8889 (Health Savings Accounts)
+            F8949 (Uncovered Investment Transactions)
+            F8959 (Additional Medicare Tax)
+            F8960 (Net Investment Income Tax)
+            F8995/F8995-A (Qualified Business Income Deduction)
+    These federal income tax credits are supported:
+            Credit for Children and Other Dependents
+            Earned Income Tax Credit
+
+    State Income Tax
+
+    Note the following states have no income tax filing:
+            Alaska
+            Tennessee
+            Wyoming
+            Florida
+            New Hampshire
+            South Dakota
+            Texas
+            Washington
+            Nevada
+
+
+Product/Catalog/store GoodGlobe LLC
+Super-Lightweight-eCommerce-Platform
+https://github.com/VineGlobal/Super-Lightweight-eCommerce-Platform
+
+Changes
+        In file QRCode/
+                file old->url_qrcodecreator.com_11_10_07.png
+                file new->post1QRcode.png
