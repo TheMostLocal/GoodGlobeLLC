@@ -1,3 +1,8 @@
 # WordaMouth
-Initial Phase Build, Each Draft is in a seperate branch
+Initial Phase Build, 
+<br>
+Each Draft is in a seperate branch
+<br>
 Dont forget to look for licensing in each
+<br>
+SignupLogin Page committed first
