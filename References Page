@@ -1,4 +1,6 @@
-   WordaMouth
+   WordaMouth 
+---JUNE
+
    https://github.com/rotki/rotki
    check that out
    Blockchain/stockETF wallet
@@ -70,3 +72,7 @@ Changes
         In file QRCode/
                 file old->url_qrcodecreator.com_11_10_07.png
                 file new->post1QRcode.png
+----
+---July
+References a page onto web
+<iframe><src=https://unusualwhales.com/stock/GME/option-chains?limit=NaN&date=2024-06-28 width="400" height="400"></iframe>
