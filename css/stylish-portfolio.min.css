@@ -10,8 +10,6 @@ body, html {
     padding: 0; /*space from content and border*/
     border: solid blue;
     border-width: thin;
-    overflow:hidden;
-    display:block;
 }
 
 body {
