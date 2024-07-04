@@ -60,7 +60,12 @@ body {
   line-height: 1.5;
   color: #212529;
   text-align: left;
-  background-color: #fff;
+  background-image: url(‘img/goodglobePic.jpg’);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  color: #FFFFFF;
+}
 }
 
 [tabindex="-1"]:focus {
