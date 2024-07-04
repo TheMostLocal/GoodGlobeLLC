@@ -10,10 +10,6 @@ body, html {
 
 body {
     font-family: 'Source Sans Pro';
-    margin: 0; /* Space from this element (entire page) and others*/
-    padding: 0; /*space from content and border*/
-    border: solid blue;
-    border-width: thin;
 }
 
 .btn-xl {
