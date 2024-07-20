@@ -1,0 +1,11 @@
+<!-- put into style.css for profile-->
+.island { filter: url(#​svg-goo); }
+.island__avatar {
+animation: hide;
+animation-timeline: scroll();
+animation-range: 0 var(--header-size);
+transform-origin: 50% 0;
+}
+@​keyframes hide {
+  to { translate: -50% -80px; scale: 0.3; }
+}
