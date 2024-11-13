@@ -6,7 +6,7 @@ function mail_veri($data)
     $data = htmlspecialchars($data);
     return $data;
   }
-
+  //HELLO Cdog
   //-----------signout-----------
   if (isset($_GET['hello'])) 
 {
